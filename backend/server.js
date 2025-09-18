@@ -2,8 +2,9 @@ import express from "express";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
 import cors from "cors";
+import connectDB from "./config/db.js";
 
-// Cargar variables de entorno
+// Load environment variables
 dotenv.config();
 
 const app = express();
@@ -12,26 +13,16 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// Varibale de entorno
+// Environment variables
 const PORT = process.env.PORT || 3000;
 const MONGO_URI = process.env.MONGO_URI;
 
-// Conexión a MongoDB
-mongoose
-  .connect(MONGO_URI, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  })
-  .then(() => console.log("✅ MongoDB conectado"))
-  .catch((err) => {
-    console.error("❌ Error al conectar a MongoDB:", err);
-    process.exit(1);
-  });
+// MongoDB conection
+connectDB();
 
 // Routes
-app.get("/", (req, res) => {
-  res.send("Bienvenido a la API de Explorify");
-});
+import userRoutes from "./routes/userRoutes.js";
+app.use("/api/users", userRoutes);
 
 // Server
 app.listen(PORT, () => {
