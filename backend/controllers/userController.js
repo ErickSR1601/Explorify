@@ -23,7 +23,7 @@ export const registerUser = async (req, res) => {
       name, 
       email,
       password: hashedPassword,
-      role,
+      role: role || "Editor",
     });
 
     if (user) {
