@@ -23,6 +23,8 @@ connectDB();
 // Routes
 import userRoutes from "./routes/userRoutes.js";
 app.use("/api/users", userRoutes);
+import articleRoutes from "./routes/articleRoutes.js";
+app.use("/api/articles", articleRoutes);
 
 // Server
 app.listen(PORT, () => {
