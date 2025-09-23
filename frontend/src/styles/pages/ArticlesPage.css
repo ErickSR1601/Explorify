@@ -1,0 +1,21 @@
+.articles-container {
+  display: flex;
+  flex-direction: column; 
+  align-items: center;
+  gap: 20px;
+  padding: 20px;
+}
+
+.loading-text,
+.error-text,
+.empty-text {
+  text-align: center;
+  font-size: 1rem;
+  margin-top: 20px;
+  color: #424242;
+}
+
+.error-text {
+  color: #c62828;
+  font-weight: bold;
+}

@@ -1,0 +1,92 @@
+.create-article-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: #ffffff; 
+  padding: 16px;
+  box-sizing: border-box;
+}
+
+.create-article-card {
+  width: 100%;
+  max-width: 450px;
+  background-color: #ECEFF1; 
+  border: 1px solid #eceff1; 
+  border-radius: 12px;
+  padding: 32px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+}
+
+.create-article-title {
+  font-size: 1.6rem;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 24px;
+  color: #006064; 
+}
+
+.create-article-input,
+.create-article-textarea {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #eceff1;
+  border-radius: 8px;
+  font-size: 14px;
+  outline: none;
+  transition: border 0.2s, box-shadow 0.2s;
+  margin-bottom: 16px;
+  color: #212121; 
+  box-sizing: border-box;
+}
+
+.create-article-input:focus,
+.create-article-textarea:focus {
+  border-color: #29b6f6; 
+  box-shadow: 0 0 4px rgba(41, 182, 246, 0.5);
+}
+
+.create-article-button {
+  width: 100%;
+  padding: 12px;
+  border: none;
+  border-radius: 8px;
+  font-size: 15px;
+  font-weight: bold;
+  background-color: #29b6f6; 
+  color: #ffffff;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.create-article-button:hover {
+  background-color: #4fc3f7; 
+}
+
+.button-group {
+  display: flex;
+  gap: 10px;
+  margin-top: 15px;
+}
+
+.create-article-cancel-button {
+  margin-top: 14px;
+  width: 100%;
+  padding: 12px;
+  border-radius: 8px;
+  font-size: 15px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s;
+  border: 2px solid #006064;
+  background-color: #ffffff;
+  color: #006064;
+}
+
+.create-article-cancel-button:hover {
+  background-color: #006064;
+  color: #ffffff;
+}

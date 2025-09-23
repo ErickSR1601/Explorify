@@ -1,0 +1,40 @@
+.article-card {
+  background-color: #ECEFF1; 
+  border: 1px solid #424242; 
+  border-radius: 8px;
+  padding: 20px;
+  margin: 20px auto; 
+  width: 45%; 
+  max-width: 600px; 
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.article-title {
+  color: #006064; 
+  font-size: 1.5rem;
+  margin-bottom: 10px;
+}
+
+.article-content {
+  color: #212121; 
+  font-size: 1.1rem;
+  margin-bottom: 15px;
+  line-height: 1.6;
+}
+
+.article-footer {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.875rem;
+  color: #424242; 
+  border-top: 1px solid #424242;
+  padding-top: 10px;
+}
+
+.article-author {
+  font-weight: bold;
+}
+
+.article-date {
+  font-style: italic;
+}
