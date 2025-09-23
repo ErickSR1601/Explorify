@@ -1,12 +1,15 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import API from "../api/Api";
 import CustomUserForm from "../components/CustomUserForm";
 
 
 export default function LoginUser() {
+  console.log("LoginUser");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState("");
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -15,8 +18,8 @@ export default function LoginUser() {
       const { data } = await API.post("/users/login", { email, password });
       sessionStorage.setItem("userInfo", JSON.stringify(data));
       setMessage("Login exitoso.");
-      // Redirect to the home page
-      
+
+      navigate("/");
     } catch (error) {
       setMessage(error.response?.data?.message || "Error al iniciar sesión.");
     }
