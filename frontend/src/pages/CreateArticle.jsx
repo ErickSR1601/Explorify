@@ -1,6 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import API from "../api/Api";
+
+// Import of Quill and its React wrapper
+import { useQuill } from "react-quilljs";
+import "quill/dist/quill.snow.css"; 
 
 import "../styles/pages/CreateArticle.css";
 
@@ -10,12 +14,33 @@ export default function CreateArticle() {
   const [message, setMessage] = useState("");
   const navigate = useNavigate();
 
+  // Editor setup
+  const { quill, quillRef } = useQuill({
+    modules: {
+      toolbar: [
+        [{ header: [2, 3, false] }],
+        ["bold", "italic", "underline", "strike"],
+        [{ list: "ordered" }, { list: "bullet" }],
+        ["link"],
+      ],
+    },
+    theme: "snow",
+  });
+
+  useEffect(() => {
+    if (quill) {
+      quill.on("text-change", () => {
+        setContent(quill.root.innerHTML); 
+      });
+    }
+  }, [quill]);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setMessage("");
 
     try {
-      const payload = { title, content };
+      const payload = { title, content }; 
       await API.post("/articles", payload);
       setMessage("Artículo creado exitosamente.");
       setTitle("");
@@ -49,15 +74,14 @@ export default function CreateArticle() {
             className="create-article-input"
             required
           />
-          <textarea
-            name="content"
-            placeholder="Contenido del artículo"
-            value={content}
-            onChange={(e) => setContent(e.target.value)}
-            className="create-article-textarea"
-            rows="6"
-            required
+
+          {/* Here goes the editor */}
+          <div
+            ref={quillRef}
+            className="create-article-editor"
+            style={{ height: "250px", marginBottom: "20px" }}
           />
+
           <button type="submit" className="create-article-button">
             Guardar
           </button>
