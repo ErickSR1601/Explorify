@@ -1,5 +1,7 @@
 import Article from "../models/Article.js";
 
+import sanitizeHtml from "sanitize-html";
+
 /**
  * @desc    Create a new article
  * @route   POST /api/articles
@@ -9,9 +11,18 @@ export const createArticle = async (req, res) => {
   const { title, content } = req.body;
 
   try {
+    const cleanContent = sanitizeHtml(content, {
+      allowedTags: sanitizeHtml.defaults.allowedTags.concat(["img"]),
+      allowedAttributes: {
+        ...sanitizeHtml.defaults.allowedAttributes,
+        img: ["src", "alt"],
+        a: ["href", "target"],
+      },
+    });
+
     const article = new Article({
       title,
-      content,
+      content: cleanContent,
       author: req.user.id,
     });
 
