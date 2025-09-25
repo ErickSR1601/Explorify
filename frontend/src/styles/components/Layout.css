@@ -1,0 +1,36 @@
+.main-container {
+  display: flex;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.navbar {
+  width: 250px;
+  flex-shrink: 0;
+}
+
+.page-content {
+  flex: 1;
+  padding: 20px;
+  margin-left: 250px;
+  overflow-y: auto;
+  transition: margin 0.3s ease;
+}
+
+.main-container {
+  display: flex;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.page-content.sidebar-open {
+  overflow: hidden;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .page-content {
+    margin-left: 0;
+    width: 100%;
+  }
+}

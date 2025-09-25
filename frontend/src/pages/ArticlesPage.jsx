@@ -1,5 +1,5 @@
 import Article from "../components/Article";
-import React, { use, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import API from "../api/Api";
 
 import "../styles/pages/ArticlesPage.css";
