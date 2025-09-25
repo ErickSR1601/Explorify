@@ -6,6 +6,7 @@ import ArticlesPage from "../pages/ArticlesPage";
 import CreateArticle from "../pages/CreateArticle";
 
 import ProtectedRoute from "./ProtectedRoutes";
+import Layout from "../components/Layout";
 
 function AppRoutes() {
   return (
@@ -16,7 +17,14 @@ function AppRoutes() {
         <Route path="/users/new" element={<RegisterUser />} />
         <Route path="/login" element={<Login />} />
         {/* Articles routes */}
-        <Route path="/" element={<ArticlesPage />} />
+        <Route
+          path="/"
+          element={
+            <Layout>
+              <ArticlesPage />
+            </Layout>
+          }
+        />
 
         {/* Private routes */}
         {/* Articles routes */}
@@ -24,7 +32,9 @@ function AppRoutes() {
           path="/articles/new"
           element={
             <ProtectedRoute>
-              <CreateArticle />
+              <Layout>
+                <CreateArticle />
+              </Layout>
             </ProtectedRoute>
           }
         />

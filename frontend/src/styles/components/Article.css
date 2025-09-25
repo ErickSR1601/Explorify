@@ -3,16 +3,19 @@
   border: 1px solid #424242;
   border-radius: 8px;
   padding: 20px;
-  margin: 20px auto;
-  width: 45%;
-  max-width: 600px;
+  width: 100%;
+  max-width: 1200px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  box-sizing: border-box;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
 }
 
 .article-title {
   color: #006064;
   font-size: 1.5rem;
   margin-bottom: 10px;
+  word-break: break-word;
 }
 
 .article-content {
@@ -20,19 +23,19 @@
   font-size: 1.1rem;
   margin-bottom: 15px;
   line-height: 1.6;
+  word-break: break-word;
 }
 
 .article-content ul,
 .article-content ol {
-  margin: 10px 0 10px 20px; /* separación superior/inferior + sangría a la izquierda */
-  padding-left: 20px; /* asegura sangría consistente */
+  margin: 10px 0 10px 20px;
+  padding-left: 20px;
 }
 
 .article-content li {
-  margin-bottom: 5px; /* espacio entre elementos de la lista */
+  margin-bottom: 5px;
 }
 
-/* Opcional: ajustar encabezados dentro del contenido */
 .article-content h1,
 .article-content h2,
 .article-content h3 {
@@ -54,4 +57,27 @@
 
 .article-date {
   font-style: italic;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .article-card {
+    width: 90%;
+    padding: 15px;
+    margin: 15px auto;
+  }
+
+  .article-title {
+    font-size: 1.3rem;
+  }
+
+  .article-content {
+    font-size: 1rem;
+  }
+
+  .article-footer {
+    flex-direction: column;
+    gap: 5px;
+    font-size: 0.8rem;
+  }
 }
