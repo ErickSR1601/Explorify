@@ -4,9 +4,11 @@ import RegisterUser from "../pages/RegisterUser";
 import Login from "../pages/LoginUser";
 import ArticlesPage from "../pages/ArticlesPage";
 import CreateArticle from "../pages/CreateArticle";
+import UserProfilePage from "../pages/UserProfilePage";
 
 import ProtectedRoute from "./ProtectedRoutes";
 import Layout from "../components/Layout";
+import { User } from "lucide-react";
 
 function AppRoutes() {
   return (
@@ -35,6 +37,16 @@ function AppRoutes() {
               <Layout>
                 <CreateArticle />
               </Layout>
+            </ProtectedRoute>
+          }
+        />
+
+        {/*User routes */}
+        <Route
+          path="/users/profile"
+          element={
+            <ProtectedRoute>
+              <UserProfilePage />
             </ProtectedRoute>
           }
         />
