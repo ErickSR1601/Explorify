@@ -12,7 +12,8 @@ export const registerUser = async (req, res) => {
   try {
     // Check if user already exists
     const userExists = await User.findOne({ email });
-    if (userExists) return res.status(400).json({ message: "El usuario ya existe" });
+    if (userExists)
+      return res.status(400).json({ message: "El usuario ya existe" });
 
     // Hash password
     const salt = await bcrypt.genSalt(10);
@@ -20,7 +21,7 @@ export const registerUser = async (req, res) => {
 
     // Create user
     const user = await User.create({
-      name, 
+      name,
       email,
       password: hashedPassword,
       role: "Editor",
@@ -41,7 +42,6 @@ export const registerUser = async (req, res) => {
     res.status(500).json({ message: "Error del servidor" + error.message });
   }
 };
-
 
 // @desc    Login user
 // @route   POST /api/users/login
@@ -68,18 +68,28 @@ export const loginUser = async (req, res) => {
   }
 };
 
+import Article from "../models/Article.js";
+
 // @desc    User profile
 // @route   GET /api/users/profile
 // @access  Private
 export const getUserProfile = async (req, res) => {
   try {
     const user = await User.findById(req.user.id).select("-password");
-    if (user) {
-      res.json(user);
-    } else {
-      res.status(404).json({ message: "Usuario no encontrado" });
+
+    if (!user) {
+      return res.status(404).json({ message: "Usuario no encontrado" });
     }
+
+    const articles = await Article.find({ author: req.user.id })
+      .select("title content createdAt")
+      .sort({ createdAt: -1 });
+
+    res.json({
+      user,
+      articles,
+    });
   } catch (error) {
-    res.status(500).json({ message: "Error del servidor" + error.message });
+    res.status(500).json({ message: "Error del servidor: " + error.message });
   }
 };

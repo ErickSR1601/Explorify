@@ -9,6 +9,7 @@
   box-sizing: border-box;
   word-wrap: break-word;
   overflow-wrap: break-word;
+  margin-bottom: 10px;
 }
 
 .article-title {
