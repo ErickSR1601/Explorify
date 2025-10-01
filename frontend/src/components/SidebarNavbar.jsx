@@ -11,7 +11,28 @@ import {
 } from "lucide-react";
 import "../styles/components/SidebarNavbar.css";
 
+import { useNavigate } from "react-router-dom";
+
 export default function SidebarNavbar({ isOpen, setIsOpen, isLoggedIn }) {
+
+  const navigate = useNavigate();
+
+  const goToProfile = () => {
+    navigate("/users/profile");
+  };
+
+  const goToCreateArticle = () => {
+    navigate("/articles/new");
+  };
+
+  const goToRegisterUser = () => {
+    navigate("/users/new");
+  };
+
+  const goToLogin = () => {
+    navigate("/login");
+  };
+
   return (
     <>
       {/* Hamburguer button */}
@@ -30,7 +51,7 @@ export default function SidebarNavbar({ isOpen, setIsOpen, isLoggedIn }) {
 
           {/* Main navigation */}
           <nav className="sidebar-nav">
-            <button className="sidebar-btn">
+            <button className="sidebar-btn" onClick={goToProfile}>
               <User size={20} />
               <span>Perfil</span>
             </button>
@@ -42,19 +63,19 @@ export default function SidebarNavbar({ isOpen, setIsOpen, isLoggedIn }) {
 
             {isLoggedIn ? (
               <>
-                <button className="sidebar-btn">
+                <button className="sidebar-btn" onClick={goToCreateArticle}>
                   <FilePlus size={20} />
                   <span>Publicar artículo</span>
                 </button>
               </>
             ) : (
               <>
-                <button className="sidebar-btn">
+                <button className="sidebar-btn" onClick={goToRegisterUser}>
                   <UserPlus size={20} />
                   <span>Registrarse</span>
                 </button>
 
-                <button className="sidebar-btn">
+                <button className="sidebar-btn" onClick={goToLogin}>
                   <LogIn size={20} />
                   <span>Iniciar sesión</span>
                 </button>
