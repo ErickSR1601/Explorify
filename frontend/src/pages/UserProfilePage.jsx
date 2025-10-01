@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import API from "../api/Api"; // <-- tu instancia axios
+import API from "../api/Api";
 import Article from "../components/Article";
+import ChangePasswordModal from "../components/ChangePasswordModal"; 
 
 import "../styles/pages/UserProfilePage.css";
 
@@ -10,6 +11,8 @@ export default function UserProfilePage() {
   const [articles, setArticles] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [showChangePassword, setShowChangePassword] = useState(false); 
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -41,13 +44,8 @@ export default function UserProfilePage() {
   }, []);
 
   const handleLogout = () => {
-    localStorage.removeItem("token");
+    sessionStorage.removeItem("userInfo");
     navigate("/login");
-  };
-
-  const handleChangePassword = () => {
-    // TODO Change password flow
-    navigate("/");
   };
 
   const handleDeleteAccount = async () => {
@@ -77,7 +75,10 @@ export default function UserProfilePage() {
           <button className="btn btn-delete" onClick={handleDeleteAccount}>
             Eliminar cuenta
           </button>
-          <button className="btn btn-change" onClick={handleChangePassword}>
+          <button
+            className="btn btn-change"
+            onClick={() => setShowChangePassword(true)}
+          >
             Cambiar contraseña
           </button>
           <button className="btn btn-logout" onClick={handleLogout}>
@@ -108,6 +109,11 @@ export default function UserProfilePage() {
           ))
         )}
       </main>
+
+      <ChangePasswordModal
+        isOpen={showChangePassword}
+        onClose={() => setShowChangePassword(false)}
+      />
     </div>
   );
 }
