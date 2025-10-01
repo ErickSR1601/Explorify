@@ -93,3 +93,32 @@ export const getUserProfile = async (req, res) => {
     res.status(500).json({ message: "Error del servidor: " + error.message });
   }
 };
+
+// @desc    Change password for logged-in user
+// @route   PUT /api/users/change-password
+// @access  Private
+export const changePassword = async (req, res) => {
+  const { currentPassword, newPassword } = req.body;
+
+  try {
+    const user = await User.findById(req.user.id);
+
+    if (!user) {
+      return res.status(404).json({ message: "Usuario no encontrado" });
+    }
+
+    const isMatch = await bcrypt.compare(currentPassword, user.password);
+    if (!isMatch) {
+      return res.status(401).json({ message: "Contraseña actual incorrecta" });
+    }
+
+    const salt = await bcrypt.genSalt(10);
+    user.password = await bcrypt.hash(newPassword, salt);
+
+    await user.save();
+
+    res.json({ message: "Contraseña actualizada correctamente" });
+  } catch (error) {
+    res.status(500).json({ message: "Error del servidor: " + error.message });
+  }
+};
