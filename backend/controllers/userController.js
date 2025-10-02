@@ -122,3 +122,26 @@ export const changePassword = async (req, res) => {
     res.status(500).json({ message: "Error del servidor: " + error.message });
   }
 };
+
+// @desc    Reset password for a user by email
+// @route   PUT /api/users/forgot-password
+// @access  Public
+export const forgotPassword = async (req, res) => {
+  const { email, newPassword } = req.body;
+
+  try {
+    const user = await User.findOne({ email });
+    if (!user) {
+      return res.status(404).json({ message: "Usuario no encontrado" });
+    }
+
+    const salt = await bcrypt.genSalt(10);
+    user.password = await bcrypt.hash(newPassword, salt);
+
+    await user.save();
+
+    res.json({ message: "Contraseña restablecida correctamente" });
+  } catch (error) {
+    res.status(500).json({ message: "Error del servidor: " + error.message });
+  }
+};
