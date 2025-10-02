@@ -3,9 +3,7 @@ import { useNavigate } from "react-router-dom";
 import API from "../api/Api";
 import CustomUserForm from "../components/CustomUserForm";
 
-
 export default function LoginUser() {
-  console.log("LoginUser");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState("");

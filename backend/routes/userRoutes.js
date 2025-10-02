@@ -4,6 +4,7 @@ import {
   loginUser,
   getUserProfile,
   changePassword,
+  forgotPassword,
 } from "../controllers/userController.js";
 import { protect } from "../middlewares/authMiddleware.js";
 
@@ -12,6 +13,7 @@ const router = express.Router();
 // Public routes
 router.post("/register", registerUser);
 router.post("/login", loginUser);
+router.put("/forgot-password", forgotPassword);
 
 // Protected routes
 router.get("/profile", protect, getUserProfile);

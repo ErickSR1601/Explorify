@@ -1,6 +1,9 @@
 import "../styles/components/CustomUserForm.css";
+import { useNavigate } from "react-router-dom";
+import { useState } from "react";
+import ForgotPasswordModal from "./ForgotPasswordModal";
 
-export default function CustomForm({
+export default function CustomUserForm({
   title,
   fields,
   onSubmit,
@@ -9,6 +12,9 @@ export default function CustomForm({
   linkText,
   linkHref,
 }) {
+  const navigate = useNavigate();
+  const [showForgotPassword, setShowForgotPassword] = useState(false);
+
   return (
     <div className="form-container">
       <div className="form-card">
@@ -33,15 +39,32 @@ export default function CustomForm({
 
         {message && <p className="form-message">{message}</p>}
 
-        {linkText && (
-          <p className="form-text">
-            {linkText}{" "}
-            <a href={linkHref} className="form-link">
-              {buttonText === "Registrarse" ? "Inicia sesión" : "Regístrate"}
+        <div className="form-links">
+          {linkText && (
+            <span>
+              {linkText}{" "}
+              <a href={linkHref} className="form-link">
+                {buttonText === "Registrarse" ? "Inicia sesión" : "Regístrate"}
+              </a>
+            </span>
+          )}
+
+          {/* Olvidé contraseña solo en login */}
+          {buttonText === "Ingresar" && (
+            <a
+              onClick={() => setShowForgotPassword(true)}
+              className="form-link forgot-link"
+            >
+              Olvidé mi contraseña
             </a>
-          </p>
-        )}
+          )}
+        </div>
       </div>
+
+      {/* Render del modal */}
+      {showForgotPassword && (
+        <ForgotPasswordModal onClose={() => setShowForgotPassword(false)} />
+      )}
     </div>
   );
 }
