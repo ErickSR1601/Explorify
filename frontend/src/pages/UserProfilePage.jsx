@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import API from "../api/Api";
-import Article from "../components/Article";
-import ChangePasswordModal from "../components/ChangePasswordModal"; 
+import UserArticleCard from "../components/UserArticleCard";
+import ChangePasswordModal from "../components/ChangePasswordModal";
 
 import "../styles/pages/UserProfilePage.css";
 
@@ -11,7 +11,7 @@ export default function UserProfilePage() {
   const [articles, setArticles] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
-  const [showChangePassword, setShowChangePassword] = useState(false); 
+  const [showChangePassword, setShowChangePassword] = useState(false);
 
   const navigate = useNavigate();
 
@@ -51,6 +51,26 @@ export default function UserProfilePage() {
   const handleDeleteAccount = async () => {
     // TODO Delete account flow
     navigate("/");
+  };
+
+  const handleDeleteArticle = async (id) => {
+    const confirmDelete = window.confirm(
+      "¿Seguro que deseas eliminar este artículo?"
+    );
+    if (!confirmDelete) return;
+
+    try {
+      await API.delete(`/articles/${id}`);
+
+      setArticles((prev) => prev.filter((a) => a._id !== id));
+    } catch (error) {
+      console.error("Error eliminando artículo:", error);
+      alert(error.response?.data?.message || "No se pudo eliminar el artículo");
+    }
+  };
+
+  const handleEditArticle = async () => {
+    // TODO Edit article flow
   };
 
   if (loading) return <p className="loading-text">Cargando perfil...</p>;
@@ -95,16 +115,19 @@ export default function UserProfilePage() {
           <p className="empty-text">No has publicado artículos aún.</p>
         ) : (
           articles.map((a, i) => (
-            <Article
+            <UserArticleCard
               key={a._id || i}
-              title={a.title}
-              content={a.content}
-              author={user.name}
-              date={new Date(a.createdAt).toLocaleDateString("es-ES", {
-                day: "2-digit",
-                month: "long",
-                year: "numeric",
-              })}
+              article={{
+                ...a,
+                author: user.name,
+                date: new Date(a.createdAt).toLocaleDateString("es-ES", {
+                  day: "2-digit",
+                  month: "long",
+                  year: "numeric",
+                }),
+              }}
+              onEdit={handleEditArticle}
+              onDelete={handleDeleteArticle}
             />
           ))
         )}
