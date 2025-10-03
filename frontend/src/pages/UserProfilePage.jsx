@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import API from "../api/Api";
 import UserArticleCard from "../components/UserArticleCard";
 import ChangePasswordModal from "../components/ChangePasswordModal";
+import ArticleEditModal from "../components/ArticleEditModal";
 
 import "../styles/pages/UserProfilePage.css";
 
@@ -12,6 +13,9 @@ export default function UserProfilePage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [showChangePassword, setShowChangePassword] = useState(false);
+
+  const [showEditModal, setShowEditModal] = useState(false);
+  const [selectedArticle, setSelectedArticle] = useState(null);
 
   const navigate = useNavigate();
 
@@ -61,7 +65,6 @@ export default function UserProfilePage() {
 
     try {
       await API.delete(`/articles/${id}`);
-
       setArticles((prev) => prev.filter((a) => a._id !== id));
     } catch (error) {
       console.error("Error eliminando artículo:", error);
@@ -69,8 +72,28 @@ export default function UserProfilePage() {
     }
   };
 
-  const handleEditArticle = async () => {
-    // TODO Edit article flow
+  const handleEditArticle = (articleId) => {
+    const article = articles.find((a) => a._id === articleId);
+    setSelectedArticle(article);
+    setShowEditModal(true);
+  };
+
+  const handleSaveEditedArticle = async (updatedArticle) => {
+    try {
+      const { data } = await API.put(`/articles/${updatedArticle._id}`, {
+        title: updatedArticle.title,
+        content: updatedArticle.content,
+      });
+
+      setArticles((prev) =>
+        prev.map((a) => (a._id === data._id ? { ...a, ...data } : a))
+      );
+    } catch (error) {
+      console.error("Error al actualizar el artículo:", error);
+      alert(
+        error.response?.data?.message || "No se pudo actualizar el artículo"
+      );
+    }
   };
 
   if (loading) return <p className="loading-text">Cargando perfil...</p>;
@@ -137,6 +160,15 @@ export default function UserProfilePage() {
         isOpen={showChangePassword}
         onClose={() => setShowChangePassword(false)}
       />
+
+      {showEditModal && (
+        <ArticleEditModal
+          isOpen={showEditModal}
+          article={selectedArticle}
+          onClose={() => setShowEditModal(false)}
+          onSave={handleSaveEditedArticle}
+        />
+      )}
     </div>
   );
 }
