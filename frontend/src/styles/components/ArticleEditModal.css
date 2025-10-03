@@ -1,0 +1,214 @@
+.article-edit-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  padding: 16px;
+  box-sizing: border-box;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.article-edit-modal-content {
+  position: relative;
+  background: #eceff1;
+  border-radius: 10px;
+  padding: 20px;
+  max-width: 1200px;
+  width: 90%;
+  max-height: calc(100vh - 40px);
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  animation: fadeIn 0.3s ease;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+.article-edit-modal-content h3 {
+  font-size: 1.8rem;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 16px;
+  color: #006064;
+}
+
+.article-edit-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  flex: 1 1 auto;
+  min-height: 0;
+  box-sizing: border-box;
+}
+
+.article-edit-input {
+  width: 100%;
+  padding: 12px 14px;
+  border: 1px solid #eceff1;
+  border-radius: 12px;
+  font-size: 16px;
+  outline: none;
+  transition: border 0.2s, box-shadow 0.2s;
+  color: #212121;
+  background: #ffffff;
+  box-sizing: border-box;
+}
+
+.article-edit-input:focus {
+  border-color: #29b6f6;
+  box-shadow: 0 0 6px rgba(41, 182, 246, 0.5);
+}
+
+.article-edit-textarea {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  min-height: 220px;
+  max-height: calc(100vh - 360px);
+  box-sizing: border-box;
+  background: #ffffff;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.article-edit-textarea .ql-toolbar {
+  border-radius: 12px 12px 0 0;
+  border: 1px solid #eceff1;
+  border-bottom: none;
+  background: #ffffff;
+  padding: 6px 8px;
+  box-sizing: border-box;
+}
+
+.article-edit-textarea .ql-container {
+  border-radius: 0 0 12px 12px;
+  border: 1px solid #eceff1;
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+  min-height: 0;
+  box-sizing: border-box;
+}
+
+.article-edit-textarea .ql-editor {
+  padding: 12px;
+  font-size: 15px;
+  line-height: 1.6;
+  overflow: auto;
+  flex: 1 1 auto;
+  min-height: 0;
+  box-sizing: border-box;
+  color: #212121;
+}
+
+.article-edit-textarea .ql-editor:focus {
+  outline: none;
+}
+
+.article-edit-buttons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 8px;
+  flex-shrink: 0;
+}
+
+.article-edit-buttons .btn-change {
+  padding: 10px 16px;
+  border: none;
+  border-radius: 8px;
+  font-size: 15px;
+  font-weight: bold;
+  background-color: #29b6f6;
+  color: #ffffff;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.article-edit-buttons .btn-change:hover {
+  background-color: #4fc3f7;
+}
+
+.article-edit-buttons .btn-delete {
+  padding: 10px 16px;
+  border-radius: 8px;
+  font-size: 15px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s;
+  border: 2px solid #006064;
+  background-color: #ffffff;
+  color: #006064;
+}
+
+.article-edit-buttons .btn-delete:hover {
+  background-color: #006064;
+  color: #ffffff;
+}
+
+.article-edit-close {
+  position: absolute;
+  top: 12px;
+  right: 16px;
+  font-size: 22px;
+  font-weight: bold;
+  color: #333;
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.article-edit-close:hover {
+  color: #000;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  .article-edit-modal-content {
+    width: 95%;
+    max-width: none;
+    max-height: calc(100vh - 24px);
+    padding: 14px;
+    border-radius: 8px;
+  }
+
+  .article-edit-modal-content h3 {
+    font-size: 1.4rem;
+    margin-bottom: 12px;
+  }
+
+  .article-edit-textarea {
+    min-height: 120px;
+    max-height: calc(100vh - 260px);
+  }
+
+  .article-edit-textarea .ql-editor {
+    min-height: 100px;
+    max-height: calc(100vh - 300px);
+    padding: 10px;
+    font-size: 14px;
+    overflow: auto;
+  }
+
+  .article-edit-buttons {
+    flex-direction: row;
+    gap: 8px;
+    margin-top: 10px;
+  }
+
+  .article-edit-buttons .btn-change,
+  .article-edit-buttons .btn-delete {
+    flex: 1;
+    padding: 8px 10px;
+    font-size: 13px;
+  }
+
+  .article-edit-close {
+    top: 10px;
+    right: 12px;
+    font-size: 20px;
+  }
+}
