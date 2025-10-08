@@ -1,24 +1,32 @@
-import { 
-  MapPin, 
-  Search, 
-  User, 
-  FilePlus, 
-  LogOut, 
-  Menu, 
-  X, 
-  UserPlus, 
-  LogIn 
+import {
+  MapPin,
+  Search,
+  User,
+  FilePlus,
+  LogOut,
+  Menu,
+  X,
+  UserPlus,
+  LogIn,
+  House,
 } from "lucide-react";
 import "../styles/components/SidebarNavbar.css";
 
 import { useNavigate } from "react-router-dom";
 
 export default function SidebarNavbar({ isOpen, setIsOpen, isLoggedIn }) {
-
   const navigate = useNavigate();
+
+  const goToHome = () => {
+    navigate("/");
+  };
 
   const goToProfile = () => {
     navigate("/users/profile");
+  };
+
+  const goToSearch = () => {
+    navigate("/articles/search");
   };
 
   const goToCreateArticle = () => {
@@ -43,7 +51,6 @@ export default function SidebarNavbar({ isOpen, setIsOpen, isLoggedIn }) {
       {/* Sidebar */}
       <div className={`sidebar ${isOpen ? "open" : ""}`}>
         <div>
-
           <div className="sidebar-header">
             <MapPin size={28} className="sidebar-icon-brand" />
             <h1 className="sidebar-title">Explorify</h1>
@@ -51,12 +58,17 @@ export default function SidebarNavbar({ isOpen, setIsOpen, isLoggedIn }) {
 
           {/* Main navigation */}
           <nav className="sidebar-nav">
+            <button className="sidebar-btn" onClick={goToHome}>
+              <House size={20} />
+              <span>Inicio</span>
+            </button>
+
             <button className="sidebar-btn" onClick={goToProfile}>
               <User size={20} />
               <span>Perfil</span>
             </button>
 
-            <button className="sidebar-btn">
+            <button className="sidebar-btn" onClick={goToSearch}>
               <Search size={20} />
               <span>Buscar</span>
             </button>
@@ -90,8 +102,8 @@ export default function SidebarNavbar({ isOpen, setIsOpen, isLoggedIn }) {
             <button
               className="sidebar-logout"
               onClick={() => {
-                sessionStorage.removeItem("userInfo"); 
-                window.location.reload(); 
+                sessionStorage.removeItem("userInfo");
+                window.location.reload();
               }}
             >
               <LogOut size={20} />
