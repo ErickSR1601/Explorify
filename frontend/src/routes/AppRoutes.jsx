@@ -5,6 +5,7 @@ import Login from "../pages/LoginUser";
 import ArticlesPage from "../pages/ArticlesPage";
 import CreateArticle from "../pages/CreateArticle";
 import UserProfilePage from "../pages/UserProfilePage";
+import ArticlesSearch from "../pages/ArticlesSearch";
 
 import ProtectedRoute from "./ProtectedRoutes";
 import Layout from "../components/Layout";
@@ -24,6 +25,14 @@ function AppRoutes() {
           element={
             <Layout>
               <ArticlesPage />
+            </Layout>
+          }
+        />
+        <Route
+          path="/articles/search"
+          element={
+            <Layout>
+              <ArticlesSearch />
             </Layout>
           }
         />

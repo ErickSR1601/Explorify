@@ -117,3 +117,30 @@ export const getArticles = async (req, res) => {
       .json({ message: "Error al obtener los artículos: " + error.message });
   }
 };
+
+// @desc    Search articles by title
+// @route   GET /api/articles/search
+// @access  Public
+export const searchArticles = async (req, res) => {
+  try {
+    const { title } = req.body;
+
+    // Avoid errors if the title is missing and remove spaces at the beginning/end and accents.
+    const normalizedTitle = title
+      ? title
+          .trim()
+          .normalize("NFD")
+          .replace(/[\u0300-\u036f]/g, "")
+      : "";
+
+    const query = normalizedTitle
+      ? { title: { $regex: normalizedTitle, $options: "i" } }
+      : {};
+
+    const articles = await Article.find(query).sort({ createdAt: -1 });
+    res.json(articles);
+  } catch (error) {
+    console.error("Error al buscar el artículo:", error);
+    res.status(500).json({ message: "Hubo un problema al buscar el artículo" });
+  }
+};
