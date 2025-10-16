@@ -11,6 +11,7 @@ import "../styles/pages/CreateArticle.css";
 export default function CreateArticle() {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
+  const [tags, setTags] = useState("");
   const [message, setMessage] = useState("");
   const navigate = useNavigate();
 
@@ -30,7 +31,7 @@ export default function CreateArticle() {
   useEffect(() => {
     if (quill) {
       quill.on("text-change", () => {
-        setContent(quill.root.innerHTML); 
+        setContent(quill.root.innerHTML);
       });
     }
   }, [quill]);
@@ -40,13 +41,18 @@ export default function CreateArticle() {
     setMessage("");
 
     try {
-      const payload = { title, content }; 
+      const tagsArray = tags
+        .split(",")
+        .map((tag) => tag.trim())
+        .filter((tag) => tag !== "");
+
+      const payload = { title, content, tags: tagsArray };
       await API.post("/articles", payload);
+
       setMessage("Artículo creado exitosamente.");
       setTitle("");
       setContent("");
-      // TODO Redirect to the new article in profile
-      navigate("/");
+      navigate("/users/profile");
     } catch (error) {
       setMessage(
         error.response?.data?.message || "Error al crear el artículo."
@@ -55,8 +61,7 @@ export default function CreateArticle() {
   };
 
   const handleCancel = () => {
-    // TODO Future redirect to profile
-    navigate("/"); 
+    navigate("/users/profile"); 
   };
 
   return (
@@ -75,7 +80,15 @@ export default function CreateArticle() {
             required
           />
 
-          {/* Here goes the editor */}
+          <input
+            type="text"
+            name="tags"
+            placeholder="Etiquetas (separadas por comas, ej: Japón, Cultura, Asia)"
+            value={tags}
+            onChange={(e) => setTags(e.target.value)}
+            className="create-article-input"
+          />
+
           <div
             ref={quillRef}
             className="create-article-editor"

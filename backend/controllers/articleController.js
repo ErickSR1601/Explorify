@@ -8,7 +8,7 @@ import sanitizeHtml from "sanitize-html";
  * @access  Private (only authenticated users)
  */
 export const createArticle = async (req, res) => {
-  const { title, content } = req.body;
+  const { title, content, tags } = req.body;
 
   try {
     const cleanContent = sanitizeHtml(content, {
@@ -20,10 +20,16 @@ export const createArticle = async (req, res) => {
       },
     });
 
+    // We ensure that tags is a clean array
+    const cleanTags = Array.isArray(tags)
+      ? tags.map((tag) => tag.trim()).filter((tag) => tag.length > 0)
+      : [];
+
     const article = new Article({
       title,
       content: cleanContent,
       author: req.user.id,
+      tags: cleanTags,
     });
 
     const savedArticle = await article.save();
@@ -106,7 +112,7 @@ export const deleteArticle = async (req, res) => {
 export const getArticles = async (req, res) => {
   try {
     const articles = await Article.find()
-      .select("title content createdAt")
+      .select("title content createdAt tags")
       .populate("author", "name")
       .sort({ createdAt: -1 });
 
