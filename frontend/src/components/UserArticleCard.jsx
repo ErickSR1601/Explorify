@@ -10,6 +10,16 @@ export default function UserArticleCard({ article, onDelete, onEdit }) {
         dangerouslySetInnerHTML={{ __html: article.content }}
       />
 
+      {article.tags && article.tags.length > 0 && (
+        <div className="article-tags">
+          {article.tags.map((tag, index) => (
+            <span key={index} className="article-tag">
+              #{tag}
+            </span>
+          ))}
+        </div>
+      )}
+
       <div className="article-footer">
         <div className="article-meta">
           <span className="article-author">{article.author}</span>

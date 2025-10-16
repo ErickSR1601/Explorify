@@ -124,7 +124,7 @@ export const getArticles = async (req, res) => {
   }
 };
 
-// @desc    Search articles by title
+// @desc    Search articles by title or tags
 // @route   GET /api/articles/search
 // @access  Public
 export const searchArticles = async (req, res) => {
@@ -139,9 +139,21 @@ export const searchArticles = async (req, res) => {
           .replace(/[\u0300-\u036f]/g, "")
       : "";
 
-    const query = normalizedTitle
-      ? { title: { $regex: normalizedTitle, $options: "i" } }
-      : {};
+    if (!normalizedTitle) {
+      const articles = await Article.find().sort({ createdAt: -1 });
+      return res.json(articles);
+    }
+
+    // Create a regular expression for case-insensitive and accent-insensitive searching
+    const regex = new RegExp(normalizedTitle, "i");
+
+    // Search for matches in the title or tags
+    const query = {
+      $or: [
+        { title: { $regex: regex } },
+        { tags: { $regex: regex } },
+      ],
+    };
 
     const articles = await Article.find(query).sort({ createdAt: -1 });
     res.json(articles);
