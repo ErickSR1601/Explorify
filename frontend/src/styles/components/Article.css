@@ -82,3 +82,25 @@
     font-size: 0.8rem;
   }
 }
+
+.article-tags {
+  margin-top: 10px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.article-tag {
+  background-color: #006064;
+  color: #fff;
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  transition: background-color 0.3s ease;
+}
+
+.article-tag:hover {
+  background-color: #004d40;
+  cursor: pointer;
+}

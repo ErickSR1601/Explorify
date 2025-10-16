@@ -22,7 +22,9 @@ export default function ArticlesPage() {
             month: "long",
             year: "numeric",
           }),
+          tags: article.tags || [],
         }));
+
         setArticles(formatted);
       } catch (err) {
         setError(
@@ -36,7 +38,7 @@ export default function ArticlesPage() {
 
     fetchArticles();
   }, []);
-  
+
   if (loading) return <p className="loading-text">Cargando artículos...</p>;
   if (error) return <p className="error-text">{error}</p>;
 
