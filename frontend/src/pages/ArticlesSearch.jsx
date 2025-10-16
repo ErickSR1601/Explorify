@@ -16,6 +16,7 @@ export default function SearchPage() {
       const res = payload
         ? await API.post(endpoint, payload)
         : await API.get(endpoint);
+
       setArticles(res.data);
     } catch (err) {
       console.error("Error fetching articles:", err);
@@ -70,6 +71,7 @@ export default function SearchPage() {
                 month: "long",
                 year: "numeric",
               })}
+              tags={article.tags || []}
             />
           ))
         )}

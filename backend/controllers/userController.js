@@ -82,7 +82,7 @@ export const getUserProfile = async (req, res) => {
     }
 
     const articles = await Article.find({ author: req.user.id })
-      .select("title content createdAt")
+      .select("title content createdAt tags")
       .sort({ createdAt: -1 });
 
     res.json({
