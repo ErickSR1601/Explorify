@@ -2,6 +2,8 @@ import Article from "../models/Article.js";
 
 import sanitizeHtml from "sanitize-html";
 
+import { checkAndAssignAchievements } from "../utils/achievements.js";
+
 /**
  * @desc    Create a new article
  * @route   POST /api/articles
@@ -33,6 +35,10 @@ export const createArticle = async (req, res) => {
     });
 
     const savedArticle = await article.save();
+
+    // ✅ Check and assign achievements after creating the article
+    await checkAndAssignAchievements(req.user.id);
+
     res.status(201).json(savedArticle);
   } catch (error) {
     res
@@ -149,10 +155,7 @@ export const searchArticles = async (req, res) => {
 
     // Search for matches in the title or tags
     const query = {
-      $or: [
-        { title: { $regex: regex } },
-        { tags: { $regex: regex } },
-      ],
+      $or: [{ title: { $regex: regex } }, { tags: { $regex: regex } }],
     };
 
     const articles = await Article.find(query).sort({ createdAt: -1 });
