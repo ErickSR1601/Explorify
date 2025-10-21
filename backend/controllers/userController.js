@@ -43,6 +43,8 @@ export const registerUser = async (req, res) => {
   }
 };
 
+import { checkAndAssignAchievements } from "../utils/achievements.js";
+
 // @desc    Login user
 // @route   POST /api/users/login
 // @access  Public
@@ -53,6 +55,9 @@ export const loginUser = async (req, res) => {
     const user = await User.findOne({ email });
 
     if (user && (await bcrypt.compare(password, user.password))) {
+
+      await checkAndAssignAchievements(user._id);
+
       res.json({
         _id: user._id,
         name: user.name,
@@ -88,6 +93,7 @@ export const getUserProfile = async (req, res) => {
     res.json({
       user,
       articles,
+      achievements: user.achievements,
     });
   } catch (error) {
     res.status(500).json({ message: "Error del servidor: " + error.message });

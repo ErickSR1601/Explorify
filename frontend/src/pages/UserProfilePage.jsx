@@ -13,6 +13,7 @@ export default function UserProfilePage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [showChangePassword, setShowChangePassword] = useState(false);
+  const [achievements, setAchievements] = useState([]);
 
   const [showEditModal, setShowEditModal] = useState(false);
   const [selectedArticle, setSelectedArticle] = useState(null);
@@ -32,6 +33,12 @@ export default function UserProfilePage() {
 
         setUser(data.user);
         setArticles(Array.isArray(data.articles) ? data.articles : []);
+
+        const sortedAchievements = (data.user.achievements || [])
+          .filter((ach) => ach.earned) // Show only the ones won
+          .sort((a, b) => new Date(b.date) - new Date(a.date));
+
+        setAchievements(sortedAchievements);
       } catch (err) {
         console.error("Error fetching profile:", err);
         setError(
@@ -111,6 +118,23 @@ export default function UserProfilePage() {
               Miembro desde:{" "}
               {new Date(user.createdAt).toLocaleDateString("es-ES")}
             </p>
+
+            {achievements.length > 0 && (
+              <div className="profile-achievements">
+                <h4 className="achievements-title">Medallas obtenidas</h4>
+                <div className="achievements-list">
+                  {achievements.map((ach, index) => (
+                    <div key={index} className="achievement-item">
+                      <span className="achievement-emoji">{ach.emoji}</span>
+                      <div className="achievement-info">
+                        <strong>{ach.name}</strong>
+                        <p className="achievement-desc">{ach.description}</p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
           </div>
         </div>
 

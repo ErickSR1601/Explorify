@@ -22,6 +22,15 @@ const userSchema = new mongoose.Schema(
       enum: ["Admin", "Editor", "Viewer"],
       default: "Editor",
     },
+    achievements: [
+      {
+        name: { type: String, required: true },
+        emoji: { type: String },
+        description: { type: String },
+        earned: { type: Boolean, default: false },
+        date: { type: Date },
+      },
+    ],
   },
   { timestamps: true }
 );
