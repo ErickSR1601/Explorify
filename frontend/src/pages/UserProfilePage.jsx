@@ -14,7 +14,6 @@ export default function UserProfilePage() {
   const [error, setError] = useState("");
   const [showChangePassword, setShowChangePassword] = useState(false);
   const [achievements, setAchievements] = useState([]);
-
   const [showEditModal, setShowEditModal] = useState(false);
   const [selectedArticle, setSelectedArticle] = useState(null);
 
@@ -35,7 +34,7 @@ export default function UserProfilePage() {
         setArticles(Array.isArray(data.articles) ? data.articles : []);
 
         const sortedAchievements = (data.user.achievements || [])
-          .filter((ach) => ach.earned) // Show only the ones won
+          .filter((ach) => ach.earned)
           .sort((a, b) => new Date(b.date) - new Date(a.date));
 
         setAchievements(sortedAchievements);
@@ -60,8 +59,25 @@ export default function UserProfilePage() {
   };
 
   const handleDeleteAccount = async () => {
-    // TODO Delete account flow
-    navigate("/");
+    const confirmDelete = window.confirm(
+      "¿Seguro que deseas eliminar la cuenta?"
+    );
+    if (!confirmDelete) return;
+
+    try {
+      await API.delete("/users/delete");
+
+      sessionStorage.removeItem("userInfo");
+
+      alert("Tu cuenta y artículos han sido eliminados correctamente.");
+      navigate("/");
+    } catch (error) {
+      console.error("Error al eliminar la cuenta:", error);
+      alert(
+        error.response?.data?.message ||
+          "No se pudo eliminar la cuenta. Inténtalo nuevamente."
+      );
+    }
   };
 
   const handleDeleteArticle = async (id) => {
