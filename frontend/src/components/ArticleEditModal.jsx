@@ -6,6 +6,7 @@ import "../styles/components/ArticleEditModal.css";
 export default function ArticleEditModal({ isOpen, article, onClose, onSave }) {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
+  const [tags, setTags] = useState("");
 
   const { quill, quillRef } = useQuill({
     modules: {
@@ -23,6 +24,8 @@ export default function ArticleEditModal({ isOpen, article, onClose, onSave }) {
     if (article) {
       setTitle(article.title || "");
       setContent(article.content || "");
+      setTags(article.tags ? article.tags.join(", ") : "");
+
       if (quill) {
         quill.clipboard.dangerouslyPasteHTML(article.content || "");
       }
@@ -42,14 +45,22 @@ export default function ArticleEditModal({ isOpen, article, onClose, onSave }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    onSave({ ...article, title, content });
+
+    const formattedTags = tags
+      .split(",")
+      .map((tag) => tag.trim())
+      .filter((tag) => tag !== "");
+
+    onSave({ ...article, title, content, tags: formattedTags });
     onClose();
   };
 
   return (
     <div className="article-edit-modal-overlay">
       <div className="article-edit-modal-content">
-        <span className="article-edit-close" onClick={onClose}>&times;</span>
+        <span className="article-edit-close" onClick={onClose}>
+          &times;
+        </span>
         <h3>Editar Artículo</h3>
 
         <form onSubmit={handleSubmit} className="article-edit-form">
@@ -59,6 +70,14 @@ export default function ArticleEditModal({ isOpen, article, onClose, onSave }) {
             onChange={(e) => setTitle(e.target.value)}
             placeholder="Título"
             required
+            className="article-edit-input"
+          />
+
+          <input
+            type="text"
+            value={tags}
+            onChange={(e) => setTags(e.target.value)}
+            placeholder="Etiquetas (separadas por comas)"
             className="article-edit-input"
           />
 

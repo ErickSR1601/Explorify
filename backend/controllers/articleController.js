@@ -54,6 +54,7 @@ export const createArticle = async (req, res) => {
  */
 export const updateArticle = async (req, res) => {
   const { id } = req.params;
+  const { title, content, tags } = req.body;
 
   try {
     const article = await Article.findById(id);
@@ -68,8 +69,12 @@ export const updateArticle = async (req, res) => {
     }
 
     // Update fields
-    article.title = req.body.title || article.title;
-    article.content = req.body.content || article.content;
+    if (title !== undefined) article.title = title;
+    if (content !== undefined) article.content = content;
+    if (tags !== undefined)
+      article.tags = Array.isArray(tags)
+        ? tags
+        : tags.split(",").map((tag) => tag.trim());
 
     const updatedArticle = await article.save();
     res.json(updatedArticle);
