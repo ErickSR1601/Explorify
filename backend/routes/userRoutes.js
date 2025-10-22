@@ -5,6 +5,7 @@ import {
   getUserProfile,
   changePassword,
   forgotPassword,
+  deleteUser
 } from "../controllers/userController.js";
 import { protect } from "../middlewares/authMiddleware.js";
 
@@ -18,5 +19,6 @@ router.put("/forgot-password", forgotPassword);
 // Protected routes
 router.get("/profile", protect, getUserProfile);
 router.put("/change-password", protect, changePassword);
+router.delete("/delete", protect, deleteUser);
 
 export default router;
