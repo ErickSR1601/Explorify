@@ -106,6 +106,7 @@ export default function UserProfilePage() {
       const { data } = await API.put(`/articles/${updatedArticle._id}`, {
         title: updatedArticle.title,
         content: updatedArticle.content,
+        tags: updatedArticle.tags,
       });
 
       setArticles((prev) =>
