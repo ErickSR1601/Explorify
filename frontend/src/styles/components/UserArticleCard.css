@@ -1,25 +1,70 @@
 .user-article-card {
+  background-color: #eceff1;
   border: 1px solid #cfd8dc;
   border-radius: 8px;
-  margin-bottom: 16px;
-  padding: 16px;
-  background-color: #eceff1;
+  padding: 20px;
+  width: 100%;
+  max-width: 1200px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
   box-sizing: border-box;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  margin-bottom: 10px;
 }
 
 .article-title {
-  margin: 0 0 12px 0;
-  font-size: 20px;
-  font-weight: 700;
   color: #006064;
+  font-size: 1.5rem;
+  margin-bottom: 10px;
+  font-weight: 700;
+  word-break: break-word;
 }
 
 .article-content {
-  color: #212121; 
+  color: #212121;
+  font-size: 1.1rem;
+  margin-bottom: 15px;
   line-height: 1.6;
-  margin-bottom: 12px;
+  word-break: break-word;
 }
 
+.article-content ul,
+.article-content ol {
+  margin: 10px 0 10px 20px;
+  padding-left: 20px;
+}
+
+.article-content li {
+  margin-bottom: 5px;
+}
+
+.article-content h1,
+.article-content h2,
+.article-content h3 {
+  margin: 15px 0 8px;
+}
+
+.article-tags {
+  margin-top: 10px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.article-tag {
+  background-color: #006064;
+  color: #ffffff;
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  transition: background-color 0.3s ease;
+}
+
+.article-tag:hover {
+  background-color: #004d4d;
+  cursor: pointer;
+}
 
 .article-footer {
   display: flex;
@@ -28,18 +73,31 @@
   margin-top: 12px;
   padding-top: 10px;
   border-top: 1px solid #006064;
+  flex-wrap: wrap;
+  gap: 10px;
 }
 
 .article-meta {
   display: flex;
   gap: 12px;
-  font-size: 14px;
-  color: #006064; 
+  font-size: 0.875rem;
+  color: #006064;
+  flex-wrap: wrap;
+}
+
+.article-author {
+  font-weight: bold;
+}
+
+.article-date {
+  font-style: italic;
+  color: #424242;
 }
 
 .article-actions {
   display: flex;
   gap: 10px;
+  flex-wrap: wrap;
 }
 
 .article-actions .btn {
@@ -48,7 +106,7 @@
   border-radius: 6px;
   cursor: pointer;
   border: none;
-  transition: background 0.2s, transform 0.04s;
+  transition: background 0.2s, transform 0.05s;
   font-weight: 700;
 }
 
@@ -72,4 +130,57 @@
 
 .article-actions .btn-delete:hover {
   background-color: #b71c1c;
+}
+
+.see-more-btn {
+  color: #006064;
+  border: 2px solid #006064;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 3px 7px;
+  font-size: 0.7rem;
+  transition: all 0.25s ease;
+  display: inline-block;
+  align-self: flex-start;
+}
+
+.see-more-btn:hover {
+  background-color: #006064;
+  color: #ffffff;
+  transform: translateY(-1px);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .user-article-card {
+    width: 100%;
+    margin: 15px auto;
+  }
+
+  .article-title {
+    font-size: 1.3rem;
+  }
+
+  .article-content {
+    font-size: 1rem;
+  }
+
+  .article-footer {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+    font-size: 0.8rem;
+  }
+
+  .article-actions {
+    justify-content: flex-start;
+    gap: 8px;
+  }
+
+  .article-actions .btn {
+    flex: 1 1 calc(50% - 5px);
+    font-size: 0.85rem;
+    padding: 5px 8px;
+  }
 }

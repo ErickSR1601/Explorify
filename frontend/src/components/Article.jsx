@@ -1,17 +1,25 @@
+import { useState } from "react";
 import "../styles/components/Article.css";
-
-import DOMPurify from "dompurify";
+import useTruncatedHTML from "../hook/useTruncatedHTML";
 
 export default function Article({ title, content, author, date, tags = [] }) {
-  const safeContent = DOMPurify.sanitize(content);
+  const [expanded, setExpanded] = useState(false);
+  const { safeContent, previewHTML } = useTruncatedHTML(content, 1000);
 
   return (
     <div className="article-card">
       <h2 className="article-title">{title}</h2>
+
       <div
         className="article-content"
-        dangerouslySetInnerHTML={{ __html: safeContent }}
+        dangerouslySetInnerHTML={{
+          __html: expanded ? safeContent : previewHTML,
+        }}
       />
+
+      <button className="see-more-btn" onClick={() => setExpanded(!expanded)}>
+        {expanded ? "Ver menos" : "Ver más..."}
+      </button>
 
       {tags.length > 0 && (
         <div className="article-tags">

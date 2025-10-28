@@ -32,12 +32,8 @@
   position: sticky;
   top: 20px;
   height: calc(100vh - 80px);
-  overflow: hidden;
+  overflow-y: auto;
   align-self: flex-start;
-}
-
-.profile-top-no-avatar {
-  display: block;
 }
 
 .profile-name {
@@ -165,12 +161,12 @@
 .profile-articles {
   flex: 1;
   padding: 8px 12px;
-  overflow-y: auto;
-  height: calc(100vh - 40px);
   box-sizing: border-box;
+  max-height: calc(100vh - 40px);
+  overflow-y: auto;
 }
 
-.profile-articles h2 {
+.profile-articles > h2 {
   color: var(--petroleum);
   margin: 0 0 16px 0;
   font-size: 1.4rem;
@@ -197,20 +193,20 @@
   font-weight: 700;
 }
 
-/* Responsivo */
+/* Responsive */
 @media (max-width: 768px) {
   .profile-page {
     flex-direction: column;
-    height: auto;
+    min-height: auto;
     padding: 16px;
   }
-
   .profile-info {
-    width: 80%;
+    width: 100%;
     min-width: auto;
     flex: 0 0 auto;
     position: relative;
     top: 0;
+    max-height: none;
     height: auto;
     border-right: none;
     border-bottom: 1px solid rgba(0, 0, 0, 0.06);
@@ -218,16 +214,16 @@
   }
 
   .profile-actions {
+    grid-template-columns: 1fr 1fr;
     gap: 8px;
   }
 
   .btn {
-    font-size: 0.7rem;
+    font-size: 0.8rem;
     padding: 8px 10px;
   }
 
   .profile-articles {
-    height: auto;
     max-height: none;
     padding: 12px 8px;
   }

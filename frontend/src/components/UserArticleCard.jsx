@@ -1,14 +1,25 @@
+import { useState } from "react";
 import "../styles/components/UserArticleCard.css";
+import useTruncatedHTML from "../hook/useTruncatedHTML";
 
 export default function UserArticleCard({ article, onDelete, onEdit }) {
+  const [expanded, setExpanded] = useState(false);
+  const { safeContent, previewHTML } = useTruncatedHTML(article.content, 1000);
+
   return (
     <div className="user-article-card">
       <h2 className="article-title">{article.title}</h2>
 
       <div
-        className="article-content"
-        dangerouslySetInnerHTML={{ __html: article.content }}
+        className={`article-content ${expanded ? "expanded" : "collapsed"}`}
+        dangerouslySetInnerHTML={{
+          __html: expanded ? safeContent : previewHTML,
+        }}
       />
+
+      <button className="see-more-btn" onClick={() => setExpanded(!expanded)}>
+        {expanded ? "Ver menos" : "Ver más..."}
+      </button>
 
       {article.tags && article.tags.length > 0 && (
         <div className="article-tags">
