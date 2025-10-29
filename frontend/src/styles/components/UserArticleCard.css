@@ -168,19 +168,22 @@
 
   .article-footer {
     flex-direction: column;
-    align-items: flex-start;
-    gap: 6px;
+    align-items: center;
+    gap: 10px;
     font-size: 0.8rem;
   }
 
   .article-actions {
-    justify-content: flex-start;
-    gap: 8px;
+    justify-content: center;
+    width: 100%;
+    flex-wrap: wrap;
+    gap: 10px;
   }
 
   .article-actions .btn {
-    flex: 1 1 calc(50% - 5px);
+    flex: 0 0 45%;
     font-size: 0.85rem;
-    padding: 5px 8px;
+    padding: 6px 10px;
+    text-align: center;
   }
 }

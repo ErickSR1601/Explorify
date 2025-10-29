@@ -197,11 +197,13 @@
 @media (max-width: 768px) {
   .profile-page {
     flex-direction: column;
-    min-height: auto;
+    height: auto;
     padding: 16px;
+    overflow: visible;
   }
+
   .profile-info {
-    width: 100%;
+    width: 90%;
     min-width: auto;
     flex: 0 0 auto;
     position: relative;
