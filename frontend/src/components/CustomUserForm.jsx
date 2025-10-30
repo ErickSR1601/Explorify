@@ -43,9 +43,13 @@ export default function CustomUserForm({
           {linkText && (
             <span>
               {linkText}{" "}
-              <a href={linkHref} className="form-link">
+              <button
+                type="button"
+                onClick={() => navigate(linkHref)}
+                className="form-link"
+              >
                 {buttonText === "Registrarse" ? "Inicia sesión" : "Regístrate"}
-              </a>
+              </button>
             </span>
           )}
 
