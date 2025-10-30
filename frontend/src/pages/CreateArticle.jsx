@@ -1,46 +1,28 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import API from "../api/Api";
-
-// Import of Quill and its React wrapper
-import { useQuill } from "react-quilljs";
-import "quill/dist/quill.snow.css"; 
+import { EditorState, convertToRaw } from "draft-js";
+import { Editor } from "react-draft-wysiwyg";
+import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 
 import "../styles/pages/CreateArticle.css";
 
 export default function CreateArticle() {
   const [title, setTitle] = useState("");
-  const [content, setContent] = useState("");
+  const [editorState, setEditorState] = useState(EditorState.createEmpty());
   const [tags, setTags] = useState("");
   const [message, setMessage] = useState("");
   const navigate = useNavigate();
-
-  // Editor setup
-  const { quill, quillRef } = useQuill({
-    modules: {
-      toolbar: [
-        [{ header: [2, 3, false] }],
-        ["bold", "italic", "underline", "strike"],
-        [{ list: "ordered" }, { list: "bullet" }],
-        ["link"],
-      ],
-    },
-    theme: "snow",
-  });
-
-  useEffect(() => {
-    if (quill) {
-      quill.on("text-change", () => {
-        setContent(quill.root.innerHTML);
-      });
-    }
-  }, [quill]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setMessage("");
 
     try {
+      const content = JSON.stringify(
+        convertToRaw(editorState.getCurrentContent())
+      );
+
       const tagsArray = tags
         .split(",")
         .map((tag) => tag.trim())
@@ -51,7 +33,7 @@ export default function CreateArticle() {
 
       setMessage("Artículo creado exitosamente.");
       setTitle("");
-      setContent("");
+      setEditorState(EditorState.createEmpty());
       navigate("/users/profile");
     } catch (error) {
       setMessage(
@@ -60,9 +42,7 @@ export default function CreateArticle() {
     }
   };
 
-  const handleCancel = () => {
-    navigate("/users/profile"); 
-  };
+  const handleCancel = () => navigate("/");
 
   return (
     <div className="create-article-container">
@@ -72,7 +52,6 @@ export default function CreateArticle() {
         <form onSubmit={handleSubmit}>
           <input
             type="text"
-            name="title"
             placeholder="Título del artículo"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
@@ -82,18 +61,28 @@ export default function CreateArticle() {
 
           <input
             type="text"
-            name="tags"
             placeholder="Etiquetas (separadas por comas, ej: Japón, Cultura, Asia)"
             value={tags}
             onChange={(e) => setTags(e.target.value)}
             className="create-article-input"
           />
 
-          <div
-            ref={quillRef}
-            className="create-article-editor"
-            style={{ height: "250px", marginBottom: "20px" }}
-          />
+          <div className="create-article-editor">
+            <Editor
+              editorState={editorState}
+              onEditorStateChange={setEditorState}
+              placeholder="Escribe el contenido del artículo..."
+              toolbar={{
+                options: ["inline", "blockType", "list"],
+                inline: { options: ["bold", "italic", "underline"] },
+                blockType: {
+                  inDropdown: false,
+                  options: ["Normal", "H1", "H2"],
+                },
+                list: { options: ["unordered", "ordered"] },
+              }}
+            />
+          </div>
 
           <button type="submit" className="create-article-button">
             Guardar

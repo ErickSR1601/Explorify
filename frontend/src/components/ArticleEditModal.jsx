@@ -1,50 +1,47 @@
-import { useState, useEffect } from "react";
-import { useQuill } from "react-quilljs";
-import "quill/dist/quill.snow.css";
+import React, { useState, useEffect } from "react";
+import {
+  EditorState,
+  convertToRaw,
+  convertFromRaw,
+  ContentState,
+} from "draft-js";
+import { Editor } from "react-draft-wysiwyg";
+import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
+import "draft-js/dist/Draft.css";
 import "../styles/components/ArticleEditModal.css";
 
 export default function ArticleEditModal({ isOpen, article, onClose, onSave }) {
   const [title, setTitle] = useState("");
-  const [content, setContent] = useState("");
+  const [editorState, setEditorState] = useState(EditorState.createEmpty());
   const [tags, setTags] = useState("");
-
-  const { quill, quillRef } = useQuill({
-    modules: {
-      toolbar: [
-        [{ header: [2, 3, false] }],
-        ["bold", "italic", "underline", "strike"],
-        [{ list: "ordered" }, { list: "bullet" }],
-        ["link"],
-      ],
-    },
-    theme: "snow",
-  });
 
   useEffect(() => {
     if (article) {
       setTitle(article.title || "");
-      setContent(article.content || "");
       setTags(article.tags ? article.tags.join(", ") : "");
 
-      if (quill) {
-        quill.clipboard.dangerouslyPasteHTML(article.content || "");
+      if (article.content) {
+        try {
+          const contentState = convertFromRaw(JSON.parse(article.content));
+          setEditorState(EditorState.createWithContent(contentState));
+        } catch {
+          const contentState = ContentState.createFromText(article.content);
+          setEditorState(EditorState.createWithContent(contentState));
+        }
+      } else {
+        setEditorState(EditorState.createEmpty());
       }
     }
-  }, [article, quill]);
-
-  useEffect(() => {
-    if (quill) {
-      const handler = () => setContent(quill.root.innerHTML);
-      quill.on("text-change", handler);
-      setContent(quill.root.innerHTML);
-      return () => quill.off("text-change", handler);
-    }
-  }, [quill]);
+  }, [article]);
 
   if (!isOpen) return null;
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    const content = JSON.stringify(
+      convertToRaw(editorState.getCurrentContent())
+    );
 
     const formattedTags = tags
       .split(",")
@@ -81,7 +78,22 @@ export default function ArticleEditModal({ isOpen, article, onClose, onSave }) {
             className="article-edit-input"
           />
 
-          <div ref={quillRef} className="article-edit-textarea" />
+          <div className="create-article-editor">
+            <Editor
+              editorState={editorState}
+              onEditorStateChange={setEditorState}
+              placeholder="Escribe el contenido del artículo..."
+              toolbar={{
+                options: ["inline", "blockType", "list"],
+                inline: { options: ["bold", "italic", "underline"] },
+                blockType: {
+                  inDropdown: false,
+                  options: ["Normal", "H1", "H2"],
+                },
+                list: { options: ["unordered", "ordered"] },
+              }}
+            />
+          </div>
 
           <div className="article-edit-buttons">
             <button type="submit" className="btn btn-change">

@@ -1,10 +1,20 @@
 import { useState } from "react";
+import draftToHtml from "draftjs-to-html";
 import "../styles/components/Article.css";
 import useTruncatedHTML from "../hook/useTruncatedHTML";
 
 export default function Article({ title, content, author, date, tags = [] }) {
   const [expanded, setExpanded] = useState(false);
-  const { safeContent, previewHTML } = useTruncatedHTML(content, 1000);
+
+  let parsedHTML = "";
+  try {
+    const rawContent = JSON.parse(content);
+    parsedHTML = draftToHtml(rawContent);
+  } catch {
+    parsedHTML = content; 
+  }
+
+  const { safeContent, previewHTML } = useTruncatedHTML(parsedHTML, 1000);
 
   return (
     <div className="article-card">

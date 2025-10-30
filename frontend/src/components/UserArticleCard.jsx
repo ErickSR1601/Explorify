@@ -1,10 +1,28 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import DOMPurify from "dompurify";
+import draftToHtml from "draftjs-to-html";
 import "../styles/components/UserArticleCard.css";
 import useTruncatedHTML from "../hook/useTruncatedHTML";
 
 export default function UserArticleCard({ article, onDelete, onEdit }) {
   const [expanded, setExpanded] = useState(false);
-  const { safeContent, previewHTML } = useTruncatedHTML(article.content, 1000);
+  const [htmlContent, setHtmlContent] = useState("");
+
+  useEffect(() => {
+    try {
+      const parsed = JSON.parse(article.content);
+      if (parsed && parsed.blocks) {
+        const html = draftToHtml(parsed);
+        setHtmlContent(DOMPurify.sanitize(html));
+      } else {
+        setHtmlContent(DOMPurify.sanitize(article.content));
+      }
+    } catch {
+      setHtmlContent(DOMPurify.sanitize(article.content));
+    }
+  }, [article.content]);
+
+  const { safeContent, previewHTML } = useTruncatedHTML(htmlContent, 1000);
 
   return (
     <div className="user-article-card">

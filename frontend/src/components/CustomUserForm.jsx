@@ -49,7 +49,6 @@ export default function CustomUserForm({
             </span>
           )}
 
-          {/* Olvidé contraseña solo en login */}
           {buttonText === "Ingresar" && (
             <a
               onClick={() => setShowForgotPassword(true)}

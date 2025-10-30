@@ -9,7 +9,6 @@ import ArticlesSearch from "../pages/ArticlesSearch";
 
 import ProtectedRoute from "./ProtectedRoutes";
 import Layout from "../components/Layout";
-import { User } from "lucide-react";
 
 function AppRoutes() {
   return (

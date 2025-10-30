@@ -103,6 +103,7 @@ export default function SidebarNavbar({ isOpen, setIsOpen, isLoggedIn }) {
               className="sidebar-logout"
               onClick={() => {
                 sessionStorage.removeItem("userInfo");
+                navigate("/");
                 window.location.reload();
               }}
             >
