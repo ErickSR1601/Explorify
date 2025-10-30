@@ -13,9 +13,10 @@
     "axios": "^1.12.2",
     "dompurify": "^3.2.7",
     "draft-js": "^0.11.7",
+    "draftjs-to-html": "^0.9.1",
     "lucide-react": "^0.544.0",
-    "react": "^19.1.1",
-    "react-dom": "^19.1.1",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
     "react-draft-wysiwyg": "^1.15.0",
     "react-router-dom": "^7.9.1"
   },
