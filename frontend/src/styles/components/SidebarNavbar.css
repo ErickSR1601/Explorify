@@ -5,13 +5,27 @@
   color: #ffffff;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-
   position: fixed;
   top: 0;
   left: 0;
   transition: transform 0.3s ease;
   z-index: 1002;
+
+  /* evita que crezca más de la pantalla */
+  overflow: hidden;
+}
+
+.sidebar-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+  overflow-y: auto; /* solo hace scroll si se necesita */
+}
+
+.sidebar-content::-webkit-scrollbar {
+  width: 0;
+  background: transparent;
 }
 
 .sidebar-header {
@@ -57,6 +71,7 @@
 
 .sidebar-footer {
   padding: 24px;
+  flex-shrink: 0;
 }
 
 .sidebar-logout {
