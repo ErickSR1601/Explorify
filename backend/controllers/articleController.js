@@ -122,12 +122,26 @@ export const deleteArticle = async (req, res) => {
  */
 export const getArticles = async (req, res) => {
   try {
-    const articles = await Article.find()
-      .select("title content createdAt tags")
-      .populate("author", "name")
-      .sort({ createdAt: -1 });
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 5;
+    const skip = (page - 1) * limit;
 
-    res.json(articles);
+    const [articles, total] = await Promise.all([
+      Article.find()
+        .select("title content createdAt tags")
+        .populate("author", "name")
+        .sort({ createdAt: -1 })
+        .skip(skip)
+        .limit(limit),
+      Article.countDocuments(),
+    ]);
+
+    res.json({
+      articles,
+      total,
+      totalPages: Math.ceil(total / limit),
+      currentPage: page
+    });
   } catch (error) {
     res
       .status(500)
