@@ -8,6 +8,9 @@ A web platform that allows users to **create, edit, and delete articles**, manag
 
 The project includes **JWT authentication**, **Complete CRUD for articles**, **dynamic achievement system** and a **modern frontend in React**.
 
+## Live Demo
+🔗 https://explorify-psi.vercel.app/
+
 ## 🚀 Technologies Used
 
 ### 🖥️ Frontend
@@ -223,8 +226,3 @@ npm run preview    # Preview build
 📧 dev.ericksr.16@gmail.com  
 💼 [LinkedIn](https://www.linkedin.com/in/ericksolisrojas/)  
 📸 [Instagram](https://www.instagram.com/ericksr___/)
-
----
-
-> 💡 “Exceed expectations and deliver exceptional results.”
-> — _Erick Solis R._
